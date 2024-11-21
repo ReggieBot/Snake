@@ -22,6 +22,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     boolean running = false;
     Timer timer;
 
-    // Inital Constructor
+    // Initial Constructor
+    public GamePanel() {
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        this.setBackground(Color.BLACK);
+        this.setFocusable(true);
+        this.addKeyListener(this);
+        startGame();
+    }
+
+
+
+
+
+
 
 }
