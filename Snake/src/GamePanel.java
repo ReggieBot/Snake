@@ -9,7 +9,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     static final int UNIT_SIZE = 25; // Size of each grid square
     static final int GAME_UNITS = (SCREEN_WIDTH * SCREEN_HEIGHT) / (UNIT_SIZE * UNIT_SIZE);
     // ^ Calculates total number of grid squares in the panel, Area (360,000px) / unit_size (625px)
-    static final int DELAY = 75; // game speed
+    static final int DELAY = 90; // game speed
 
     // Snake and food variables
     final int[] x = new int[GAME_UNITS]; // Snakes x-coordinates
