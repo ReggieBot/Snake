@@ -73,7 +73,105 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
                 g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
             }
 
+            // Display Score
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Ink Free", Font.BOLD, 25));
+            FontMetrics metrics = getFontMetrics(g.getFont());
+            g.drawString("Score: " + applesEaten, (SCREEN_WIDTH - metrics.stringWidth("Game Over")) / 2, SCREEN_HEIGHT / 2);
 
+        } else {
+            gameOver(g);
         }
     }
+
+    // Check collisions and handle game over
+    public void checkCollisions() {
+        // check if head collides with body
+        for (int i = bodyParts; i > 0; i--) {
+            if ((x[0] == x[1]) && (y[0] == y[1])) {
+                running = false;
+            }
+        }
+
+        // Check if head collides with walls
+        if (x[0] < 0 || x[0] >= SCREEN_WIDTH || y[0] < 0 || y[0] >= SCREEN_HEIGHT) {
+            running = false;
+        }
+
+        if (!running) {
+            timer.stop();
+        }
+    }
+
+    // Display game over screen
+    public void gameOver(Graphics g) {
+        // Display Score
+        g.setColor(Color.RED);
+        g.setFont(new Font("Ink Free", Font.BOLD, 50));
+        FontMetrics metrics = getFontMetrics(g.getFont());
+        g.drawString("Game Over", (SCREEN_WIDTH - metrics.stringWidth("Game Over")) / 2, SCREEN_HEIGHT / 2);
+    }
+
+    // Update the game state
+    public void move() {
+        for (int i = bodyParts; i > 0; i --) {
+            x[i] = x[i - 1];
+            y[i] = y[i - 1];
+        }
+
+        // change direction using switch cases
+        switch (direction) {
+            case 'U':
+                y[0] = y[0] - UNIT_SIZE;
+                break;
+            case 'D':
+                y[0] = y[0] + UNIT_SIZE;
+                break;
+            case 'L':
+                x[0] = x[0] - UNIT_SIZE;
+                break;
+            case 'R':
+                x[0] = x[0] + UNIT_SIZE;
+                break;
+        }
+    }
+
+    // checks if apple is eaten and calls method to create new apple
+    public void checkApple() {
+        if ((x[0] == appleX) && (y[0] == appleY)) {
+            bodyParts++;
+            applesEaten++;
+            newApple();
+        }
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (running) {
+            move();
+            checkApple();
+            checkCollisions();
+        }
+        repaint();
+    }
+
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_LEFT:
+                if (direction != 'R') direction = 'L';
+                break;
+            case KeyEvent.VK_RIGHT:
+                if (direction!= 'L') direction = 'R';
+                break;
+            case KeyEvent.VK_UP:
+                if (direction != 'D') direction = 'U';
+                break;
+            case KeyEvent.VK_DOWN:
+                if (direction != 'U') direction = 'D';
+                break;
+        }
+    }
+
+    public void keyReleased(KeyEvent e) {}
+
+    public void keyTyped(KeyEvent e) {}
 }
