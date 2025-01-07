@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         super.paintComponent(g);
         draw(g);
     }
-
+//
     public void draw(Graphics g) {
         if (running) {
             // Draw Grid
